@@ -1,0 +1,5 @@
+<!doctype html><html><head><meta name=viewport content="width=device-width,initial-scale=1"><title>All2Go Payment</title><style>body{font-family:Arial;text-align:center;padding:50px;color:#123027}a{color:#0b9f45}</style></head><body><h1>✅ Payment submitted</h1><p id=msg>Checking your payment confirmation…</p><a href="/">Return to All2Go</a><script>
+const id=new URLSearchParams(location.search).get("order");const token=localStorage.token||"";let tries=0;
+async function check(){if(!id||!token)return;try{const r=await fetch("/api/payment-status/"+encodeURIComponent(id),{headers:{Authorization:"Bearer "+token}});const j=await r.json();if(j.payment_status==="paid"){msg.textContent="Payment confirmed. Your order is confirmed.";return}if(j.payment_status==="pending"&&tries<10){tries++;setTimeout(check,1500);return}msg.textContent="We have not received final confirmation yet. You can check your Orders page."; }catch(e){msg.textContent="We couldn't check the payment status. Please check your Orders page."}}
+check();
+</script></body></html>
